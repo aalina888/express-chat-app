@@ -7,8 +7,17 @@ const $messageFormButton = $messageForm.querySelector('button');
 
 const $sendLocationButton = document.querySelector('#send-location');
 
-socket.on('message', (mes) => {
-    console.log(mes);
+const $messages = document.querySelector('#messages');
+
+// Templates
+const $messageTemplate = document.querySelector('#message-template').innerHTML;
+
+socket.on('message', (message) => {
+    console.log(message);
+    const html = Mustache.render($messageTemplate, {
+        message
+    });
+    $messages.insertAdjacentHTML('beforeend', html);
 });
 
 $messageForm.addEventListener('submit', (e) => {
@@ -43,6 +52,5 @@ $sendLocationButton.addEventListener('click', () => {
                 $sendLocationButton.removeAttribute('disabled');
                 console.log('Location shared!');
             });
-
     });
 });
